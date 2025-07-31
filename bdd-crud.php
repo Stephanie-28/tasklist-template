@@ -19,37 +19,57 @@ function connect_database() : PDO{
 function create_user(string $email,string $password) : int | null {
     $database = connect_database();
     // TODO
-
+    $request = $database->prepare("INSERT INTO User (email, password) VALUES (?, ?)");
+    $request->execute(array($email,$password));
+    $user_id = $database->lastInsertId();
     return $user_id;
 }
 // Read (login)
-function get_user(int $id) : array | null {
+function get_user(int $email) : array | null {
     $database = connect_database();
     // TODO 
+    $database = new PDO("mysql:127.0.O.1;dbname=app-database","root","root");
+    $request = $database->prepare("SELECT * FROM User WHERE email=?");
 
+    $request->execute([ $email]);
+    $user = $request->fetch(PDO::FETCH_ASSOC);
     return $user;
 }
 
 
 // CRUD Task
 // Create
-function add_task(string $name,string $description) : int | null {
+function add_task(string $title,string $description,string $user_id) : int | null {
     $database = connect_database();
-
+    $request = $database->prepare("INSERT INTO Task (title, description, user_id) VALUES (?, ?, ?)");
+    $request->execute(array($title,$description,$user_id));
+    $task_id = $database->lastInsertId();
     
     return $task_id;
 }
 
 //Read
-function get_task(int $id) : array | null {
+function get_task(int $title) : array | null {
     $database = connect_database();
     // TODO
+    $database = new PDO("mysql:127.0.O.1;dbname=app-database","root","root");
+    $request = $database->prepare("SELECT * FROM Task WHERE title=?");
+
+    $request->execute([ $title]);
+    $task = $request->fetch(PDO::FETCH_ASSOC);
+
     return $task;
 }
 
-function get_all_task() : array | null {
+function get_all_task(int $user_id) : array | null {
     $database = connect_database();
     // TODO
+    $database = new PDO("mysql:127.0.O.1;dbname=app-database","root","root");
+    $request = $database->prepare("SELECT * FROM Task WHERE user_id=?");
+
+    $request->execute([ $user_id]);
+    $tasks = $request->fetchAll(PDO::FETCH_ASSOC);
+
     return $tasks;
 }
 
@@ -57,5 +77,10 @@ function get_all_task() : array | null {
 function delete_task(int $id) : bool{
     $database = connect_database();
     // TODO
+    $database = new PDO("mysql:127.0.O.1;dbname=app-database","root","root");
+    $request = $database->prepare("DELETE FROM Task WHERE id=?");
+    $isSuccessful = $request->execute([$id]);
+    $task_id = $database->lastInsertId();
+    
     return $isSuccessful;
 }

@@ -1,7 +1,7 @@
 <?php
 require_once "bdd-crud.php";
 // TODO Connection Utilisateur via la session
-
+    // $user = get_user($_POST["email"]);
 ?>
 
 
