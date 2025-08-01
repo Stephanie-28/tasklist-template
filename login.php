@@ -6,12 +6,10 @@ session_start();
 if (isset($_POST["email"]) && $_POST["password"]) {
 
     $user = get_user($_POST["email"]);
-}
-    if(isset($_POST[""]) && $_POST[""]) {
+    if (password_verify($_POST["password"], $user["password"])) {
         header("Location: index.php");
+
     }
-    if(password_verify($_POST["password"], $user["password"])) {
-     
 }
 ?>
 
