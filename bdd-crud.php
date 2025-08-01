@@ -25,7 +25,7 @@ function create_user(string $email,string $password) : int | null {
     return $user_id;
 }
 // Read (login)
-function get_user(int $email) : array | null {
+function get_user(string $email) : array | null {
     $database = connect_database();
     // TODO 
     $database = new PDO("mysql:127.0.O.1;dbname=app-database","root","root");
