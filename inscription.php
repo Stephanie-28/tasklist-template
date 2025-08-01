@@ -1,15 +1,17 @@
 <?php
 require_once "bdd-crud.php";
-if (isset($_POST["email"]) && 
-    isset($_POST["password"])){
 
-    create_user($_POST["email"],$_POST["password"]);    
-    }
+if (
+    isset($_POST["email"]) &&
+    isset($_POST["password"])
+) {
 
-    if ($_POST["email"] == "email"){
-        $_POST["email"] = $email;
+    $user_id = create_user($_POST["email"], $_POST["password"]);
+    if($user_id ) {
         header("Location: login.php");
     }
+}
+
 ?>
 
 
@@ -23,13 +25,14 @@ if (isset($_POST["email"]) &&
 </head>
 
 <body>
-   <!-- TODO Formulaire pour s'inscrire (créer un utilisateur) -->
+    <!-- TODO Formulaire pour s'inscrire (créer un utilisateur) -->
     <h2>S'inscrire</h2>
     <form action="#" method="post">
         <input type="text" name="email" placeholder="Entre votre email !">
         <input type="text" name="password" placeholder="Entre votre mot de passe !">
         <button>Envoyer</button>
     </form>
+    <a href="login.php">Se connecter</a>
 </body>
 
 </html>

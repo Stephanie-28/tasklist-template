@@ -16,13 +16,17 @@ function connect_database() : PDO{
 }
 // CRUD User
 // Create (signin)
-function create_user(string $email,string $password) : int | null {
+function create_user(string $email,string $password) : int | false {
     $database = connect_database();
     // TODO
     $request = $database->prepare("INSERT INTO User (email, password) VALUES (?, ?)");
-    $request->execute(array($email,$password));
-    $user_id = $database->lastInsertId();
-    return $user_id;
+    $isSuccess = $request->execute([$email, password_hash($password, PASSWORD_DEFAULT)]);
+    if($isSuccess) {
+        $user_id = $database->lastInsertId();
+        return $user_id;
+    }else{
+        return false;
+    }
 }
 // Read (login)
 function get_user(string $email) : array | null {
